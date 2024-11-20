@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Fidelización</title>
+    <link rel="stylesheet" href="css/styles-puntos.css">
+    <link rel="icon" href="img/LOGO LA VERA PIZZA.png" type="image/x-icon">
+</head>
+
+
+<body>
+    <div id="app-container">
+        <h1>Puntos Acumulados</h1>
+        <label for="phone-check">Ingresa tu número de teléfono:</label>
+        <input type="tel" id="phone-check" pattern="[0-9]{10}" placeholder="Número de teléfono">
+        <button class="button-1" id="ver-puntos-btn">Ver Puntos</button>
+        <div id="loading" class="loading-container">
+            <div id="spinner" class="spinner"></div> <!-- Spinner -->
+            <div id="loading-text" class="loading-text">Cargando...</div> <!-- Texto "Cargando" -->
+        </div>
+        <p id="puntos-acumulados">Tus puntos: <span id="puntos">0</span></p>
+    </div>
+
+    <div class="product-card">
+        <img src="img/pizza_margherita_(canje).png" alt="Producto" class="product-image" onclick="openImage(this)">
+        <div class="product-info">
+            <h3 class="product-name">Pizza Margherita (canje)</h3>
+            <p class="product-description">Salsa de tomate pomodoro, queso mozzarella, albahaca, aceite de oliva.</p>
+            <div class="product-footer">
+                <span class="product-price" id="price-Pizza Margherita (canje)">10 Puntos</span>
+                <div class="quantity-controls">
+                    <button type="button" id="decrease-Pizza Margherita (canje)"
+                        onclick="decreaseQuantity('Pizza Margherita (canje)')">-</button>
+                    <input type="text" id="quantity-Pizza Margherita (canje)" class="quantity" value="0" readonly>
+                    <button type="button" id="increase-Pizza Margherita (canje)"
+                        onclick="increaseQuantity('Pizza Margherita (canje)')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+        <img src="img/pizza_rúcula_y_jamon_crudo_(canje).png" alt="Producto" class="product-image"
+            onclick="openImage(this)">
+        <div class="product-info">
+            <h3 class="product-name">Pizza Rúcula y Jamon Crudo (canje)</h3>
+            <p class="product-description">Queso mozzarella, salsa de tomate pomodoro, parmesano, jamón crudo, rúcula.
+            </p>
+            <div class="product-footer">
+                <span class="product-price" id="price-Pizza Rúcula y Jamon Crudo (canje)">15 Puntos</span>
+                <div class="quantity-controls">
+                    <button type="button" id="decrease-Pizza Rúcula y Jamon Crudo (canje)"
+                        onclick="decreaseQuantity('Pizza Rúcula y Jamon Crudo (canje)')">-</button>
+                    <input type="text" id="quantity-Pizza Rúcula y Jamon Crudo (canje)" class="quantity" value="0"
+                        readonly>
+                    <button type="button" id="increase-Pizza Rúcula y Jamon Crudo (canje)"
+                        onclick="increaseQuantity('Pizza Rúcula y Jamon Crudo (canje)')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card" id="special-product">
+        <img src="img/pizza_pepperoni_(canje).png" alt="Producto" class="product-image" onclick="openImage(this)">
+        <div class="product-info">
+            <h3 class="product-name">Pizza Pepperoni (canje)</h3>
+            <p class="product-description">Salsa de tomate pomodoro, queso mozzarella, albahaca, aceite de oliva,
+                pepperoni.</p>
+            <div class="product-footer">
+                <span class="product-price" id="price-Pizza Pepperoni (canje)">15 Puntos</span>
+                <div class="quantity-controls">
+                    <button type="button" id="decrease-Pizza Pepperoni (canje)"
+                        onclick="decreaseQuantity('Pizza Pepperoni (canje)')">-</button>
+                    <input type="text" id="quantity-Pizza Pepperoni (canje)" class="quantity" value="0" readonly>
+                    <button type="button" id="increase-Pizza Pepperoni (canje)"
+                        onclick="increaseQuantity('Pizza Pepperoni (canje)')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar la imagen en pantalla completa -->
+    <div id="image-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeImage()">&#x2715;</button>
+            <img id="full-image" alt="Producto en pantalla completa">
+        </div>
+    </div>
+
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
+        import { getDatabase, ref, get, set, onValue } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCzMNKimcw1kaaJlMdTKj7RAdlsHyaImBk",
+            authDomain: "vera-pizza-app.firebaseapp.com",
+            databaseURL: "https://vera-pizza-app-default-rtdb.firebaseio.com/",
+            projectId: "vera-pizza-app",
+            storageBucket: "vera-pizza-app.appspot.com",
+            messagingSenderId: "783988757356",
+            appId: "1:783988757356:web:c66d3f2571aff0f125d949",
+            measurementId: "G-FNLSPHKXFW"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        let puntosDisponibles = 0;
+        let telefonoActual = ""; // Variable para almacenar el número de teléfono actual
+
+        // Definir los puntos de cada producto
+        const productPoints = {
+            'Pizza Margherita (canje)': 10,
+            'Pizza Rúcula y Jamon Crudo (canje)': 15,
+            'Pizza Pepperoni (canje)': 20,
+        };
+
+        let cart = {};
+
+        // Función para habilitar o deshabilitar los botones de aumentar/disminuir según los puntos disponibles
+        function checkProductButtons() {
+            Object.keys(productPoints).forEach(product => {
+                const price = productPoints[product];
+                const increaseBtn = document.getElementById('increase-' + product);
+                const quantityInput = document.getElementById('quantity-' + product);
+
+                // Verifica si se pueden aumentar los productos, basándose en los puntos disponibles
+                if (puntosDisponibles < price * (parseInt(quantityInput.value) + 1)) {
+                    increaseBtn.disabled = true;
+                } else {
+                    increaseBtn.disabled = false;
+                }
+            });
+        }
+
+        // Mostrar puntos al hacer clic en "Ver Puntos"
+        document.getElementById('ver-puntos-btn').addEventListener('click', function () {
+            const telefono = document.getElementById('phone-check').value;
+
+            // Mostrar el spinner
+            document.getElementById('loading').style.display = 'flex';
+            document.body.classList.add('loading-active');
+
+            if (telefono) {
+                telefonoActual = telefono;
+                const userRef = ref(database, 'usuarios/' + telefono);
+                get(userRef).then((snapshot) => {
+                    const puntos = snapshot.val() ? snapshot.val().puntos : 0;
+                    puntosDisponibles = puntos;
+
+                    // Guardar puntos en localStorage
+                    savePointsToLocalStorage(puntosDisponibles);
+
+                    document.getElementById('puntos').textContent = puntos;
+                    checkProductButtons();
+                    listenToPuntos(telefono);
+                }).catch((error) => {
+                    console.error("Error al obtener los puntos:", error);
+                }).finally(() => {
+                    document.body.classList.remove('loading-active');
+                    document.getElementById('loading').style.display = 'none';
+                });
+            } else {
+                alert("Por favor, ingresa un número de teléfono.");
+                document.body.classList.remove('loading-active');
+                document.getElementById('loading').style.display = 'none';
+            }
+        });
+
+        // Escuchar los cambios en tiempo real en los puntos del usuario
+        function listenToPuntos(telefono) {
+            const userRef = ref(database, 'usuarios/' + telefono);
+            onValue(userRef, (snapshot) => {
+                const puntos = snapshot.val() ? snapshot.val().puntos : 0;
+                puntosDisponibles = puntos;
+
+                // Guardar puntos en localStorage
+                savePointsToLocalStorage(puntosDisponibles);
+
+                document.getElementById('puntos').textContent = puntos;
+                checkProductButtons();
+            });
+        }
+
+        // Al sumar un producto
+        window.increaseQuantity = function (product) {
+            const quantityInput = document.getElementById('quantity-' + product);
+            const price = productPoints[product];
+            let currentQuantity = parseInt(quantityInput.value);
+
+            if (!isNaN(currentQuantity) && puntosDisponibles >= price) {
+                currentQuantity++;
+                cart[product] = { price, quantity: currentQuantity };
+                puntosDisponibles -= price;
+
+                // Guardar puntos en localStorage
+                savePointsToLocalStorage(puntosDisponibles);
+
+                quantityInput.value = currentQuantity;
+                document.getElementById('puntos').textContent = puntosDisponibles;
+
+                updateCartCount();
+                saveCartToLocalStorage();
+            }
+        };
+
+        // Al restar un producto
+        window.decreaseQuantity = function (product) {
+            const quantityInput = document.getElementById('quantity-' + product);
+            const price = productPoints[product];
+            let currentQuantity = parseInt(quantityInput.value);
+
+            if (!isNaN(currentQuantity) && currentQuantity > 0) {
+                currentQuantity--;
+                cart[product] = { price, quantity: currentQuantity };
+                if (currentQuantity === 0) delete cart[product];
+
+                puntosDisponibles += price;
+
+                // Guardar puntos en localStorage
+                savePointsToLocalStorage(puntosDisponibles);
+
+                quantityInput.value = currentQuantity;
+                document.getElementById('puntos').textContent = puntosDisponibles;
+
+                updateCartCount();
+                saveCartToLocalStorage();
+            }
+        };
+
+        // Actualizar el contador del carrito
+        function updateCartCount() {
+            const cartCountElement = document.getElementById('cart-count');
+            const totalItems = Object.values(cart).reduce((acc, item) => acc + item.quantity, 0);
+
+            if (totalItems > 0) {
+                cartCountElement.style.display = 'flex';
+                cartCountElement.textContent = totalItems;
+            } else {
+                cartCountElement.style.display = 'none';
+            }
+        }
+
+        // Guardar el carrito en localStorage
+        function saveCartToLocalStorage() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        // Recuperar el carrito desde localStorage
+        function getCartFromLocalStorage() {
+            cart = JSON.parse(localStorage.getItem('cart')) || {};
+            Object.keys(cart).forEach(product => {
+                const quantityInput = document.getElementById('quantity-' + product);
+                if (quantityInput) quantityInput.value = cart[product].quantity;
+            });
+        }
+
+        // Guardar puntos en localStorage
+        function savePointsToLocalStorage(points) {
+            localStorage.setItem('points', points);
+        }
+
+        // Recuperar puntos desde localStorage
+        function getPointsFromLocalStorage() {
+            const points = parseInt(localStorage.getItem('points'));
+            return isNaN(points) ? 0 : points;
+        }
+
+        // Al cargar la página
+        window.onload = function () {
+            getCartFromLocalStorage();
+            puntosDisponibles = getPointsFromLocalStorage();
+            document.getElementById('puntos').textContent = puntosDisponibles;
+            updateCartCount();
+            checkProductButtons();
+        };
+
+    </script>
+    <script>
+        function openImage(imageElement) {
+            const modal = document.getElementById("image-modal");
+            const fullImage = document.getElementById("full-image");
+
+            // Configurar la imagen del modal
+            fullImage.src = imageElement.src;
+
+            // Mostrar el modal
+            modal.style.display = "flex";
+        }
+
+        function closeImage() {
+            const modal = document.getElementById("image-modal");
+
+            // Ocultar el modal
+            modal.style.display = "none";
+        }
+    </script>
+
+
+    <div class="button-container-1">
+        <a href="carrito.html">
+            <div class="cart-icon">
+                <img src="img/carrito-de-compras.png" alt="Cart Icon">
+                <div id="cart-count">0</div> <!-- Contador del carrito -->
+            </div>
+    </div>
+
+
+</body>
+
+
+
+<footer>
+    <a href="index.html">
+        <img src="img/casa.png" alt="Logo 1">
+    </a>
+    <div class="separator"></div>
+
+    <a href="contacto.html">
+        <img src="img/redes-sociales.png" alt="Logo 2">
+    </a>
+    <div class="separator"></div>
+
+    <a href="puntos.html">
+        <img src="img/premios.png" alt="Logo 2">
+    </a>
+    <div class="separator"></div>
+
+    <a href="promociones.html">
+        <img src="img/promocion.png" alt="Logo 4">
+    </a>
+    <div class="separator"></div>
+
+    <a href="productos-ventas.html">
+        <img src="img/pizza.png" alt="Logo 3">
+    </a>
+
+
+</footer>
+
+</html>

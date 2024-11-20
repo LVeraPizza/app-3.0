@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("wGGXbjw0SnUFnyV2T");
+        })();
+    </script>
+    <style>
+        body {
+            height: 100%;
+            /* Asegura que el html y el body ocupen el 100% de la altura de la ventana */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            /* Fondo negro semitransparente */
+            background-image: url('css/fondo.jpg');
+            /* Ruta de la imagen de fondo */
+            background-size: cover;
+            /* La imagen ocupa todo el fondo */
+            background-position: center;
+            /* Centra la imagen */
+            background-repeat: no-repeat;
+            /* Evita que la imagen se repita */
+            background-attachment: fixed;
+            /* Hace que el fondo quede fijo */
+        }
+
+        #form-container {
+            max-width: 600px;
+            /* Ancho máximo del contenedor */
+            margin: auto;
+            /* Centrar el contenedor */
+            padding: 20px;
+            /* Espaciado interno */
+            background-color: rgba(19, 18, 18, 0.8);
+            /* Fondo blanco semitransparente */
+            border: 1px solid rgba(14, 13, 13, 0.5);
+            /* Borde gris claro semitransparente */
+            border-radius: 8px;
+            /* Bordes redondeados */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /* Sombra */
+            margin-top: 100px;
+        }
+
+
+        h1 {
+            text-align: center;
+            /* Centra el título */
+            color: white;
+        }
+
+        .form-section {
+            margin: 20px 0;
+        }
+
+        .form-section label {
+            font-size: 1.1em;
+            color: white;
+            margin-bottom: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        #delivery {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            color: #333;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            appearance: none;
+            /* Elimina la flecha por defecto */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        #delivery:focus {
+            border-color: #0073e6;
+            box-shadow: 0px 0px 5px rgba(0, 115, 230, 0.5);
+            outline: none;
+        }
+
+        .form-section select option {
+            color: #333;
+        }
+
+        /* Opcional: animación para el cambio de opciones */
+        #delivery-options {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #delivery-options:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+
+        label {
+            display: block;
+            /* Cada etiqueta ocupa una línea */
+            margin-bottom: 5px;
+            /* Espacio debajo de las etiquetas */
+        }
+
+        input[type="text"],
+        input[type="tel"] {
+            width: 95%;
+            /* Ocupa el 100% del contenedor */
+            padding: 8px;
+            /* Espaciado interno */
+            border: 1px solid #ccc;
+            /* Borde gris */
+            border-radius: 4px;
+            /* Bordes redondeados */
+        }
+
+
+        button {
+            width: 100%;
+            /* Ocupa el 100% del contenedor */
+            padding: 10px;
+            /* Espaciado interno */
+            font-size: 16px;
+            /* Tamaño de fuente */
+            font-weight: bold;
+            /* Negrita */
+            color: white;
+            /* Color del texto */
+            background-color: green;
+            /* Color de fondo verde */
+            border: none;
+            /* Sin borde */
+            border-radius: 5px;
+            /* Bordes redondeados */
+            cursor: pointer;
+            /* Cambia el cursor al pasar por encima */
+        }
+
+        button:hover {
+            background-color: darkgreen;
+            /* Color de fondo al pasar el mouse */
+        }
+
+        footer {
+            position: fixed;
+            /* Hace que el footer esté fijo en la parte inferior */
+            bottom: 0;
+            /* Alinea el footer a la parte inferior de la ventana */
+            left: 0;
+            /* Alinea el footer al lado izquierdo de la ventana */
+            background-color: white;
+            color: white;
+            display: flex;
+            justify-content: center;
+            /* Centra los logos en el footer */
+            align-items: center;
+            /* Centra los logos verticalmente */
+            width: 100%;
+            /* Asegura que el footer ocupe todo el ancho de la página */
+            z-index: 1000;
+            /* Asegura que el footer esté por encima de otros elementos */
+            border-top: 2px solid black;
+            /* Agrega una línea negra de 2px en la parte superior */
+        }
+
+        footer img {
+            width: 40px;
+            /* Ancho de los logos */
+            height: auto;
+            /* Mantiene la proporción */
+            margin: 10px 5px;
+            /* Espacio entre los logos (10px arriba y abajo, 15px a los lados) */
+            background-color: white;
+            /* Color de fondo para visualizar el espacio */
+        }
+
+        .separator {
+            width: 1px;
+            /* Ancho de la barra */
+            height: 50px;
+            /* Altura de la barra */
+            background-color: rgb(10, 10, 10);
+            /* Color de la barra */
+            margin: 0 10px;
+            /* Espacio a los lados de la barra */
+        }
+
+        .button-container-1 {
+            position: fixed;
+            bottom: 13%;
+            right: 1%; /* Ajusta el 5% según desees la distancia desde el lado derecho */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-radius: 50%;
+            width: 70px; /* Tamaño del círculo */
+            height: 70px; /* Tamaño del círculo */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .button-container-1:hover {
+            transform: scale(1.1); /* Efecto de zoom al pasar el mouse */
+        }
+        
+        .cart-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .cart-icon img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+        
+        #cart-count {
+            position: absolute;
+            top: -10%; /* Subir el contador por encima del icono */
+            left: 10%; /* Mover el contador hacia la izquierda */
+            background-color: red;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+
+        /* Estilo del fondo negro semitransparente */
+        body.loading-active {
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Fondo oscuro con opacidad */
+            overflow: hidden;
+            /* Evita que se pueda hacer scroll cuando está cargando */
+        }
+
+        /* Contenedor para el loading */
+        .loading-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            /* Fondo oscuro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            display: none;
+            /* Inicialmente oculto */
+            flex-direction: column;
+            /* Esto coloca los elementos en columna */
+        }
+
+        /* Estilo del spinner */
+        .spinner {
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            /* Fondo del spinner */
+            border-top: 8px solid #ffffff;
+            /* Color de la parte superior */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1.5s linear infinite;
+            /* Animación de rotación */
+            z-index: 2;
+            /* Asegura que el spinner esté encima */
+        }
+
+        /* Estilo del texto "Cargando..." */
+        .loading-text {
+            position: flex;
+
+            /* Ajusta la distancia para que el texto esté debajo del spinner */
+            font-size: 20px;
+            color: white;
+            font-weight: bold;
+            z-index: 1;
+            /* El texto está debajo del spinner */
+        }
+
+        /* Animación para hacer girar el spinner */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="form-container">
+        <h1>¡Estas a un paso!</h1>
+
+        <div class="form-section">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" required placeholder="Escribe tu nombre">
+        </div>
+
+        <div class="form-section">
+            <label for="address">Dirección:</label>
+            <input type="text" id="address" name="address" required placeholder="Escribe la dirección">
+        </div>
+
+        <div class="form-section">
+            <label for="phone">Número de Teléfono:</label>
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required
+                placeholder="Escribe tu número, sin 0 y sin 15">
+        </div>
+
+        <div class="form-section">
+            <label for="address">Observaciones:</label>
+            <input type="text" id="Observaciones" name="Observaciones" required
+                placeholder="Piso, Portero, Comentario, Hora de Retiro">
+        </div>
+
+
+        <div class="form-section">
+            <label for="delivery">Opciones de Entrega:</label>
+            <select id="delivery" name="delivery" required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option value="retiro">Retiro</option>
+                <option value="envio">Envío</option>
+            </select>
+        </div>
+
+
+
+        <button id="submit-button">Confirmar Pedido</button>
+        <div id="loading" class="loading-container">
+            <div id="spinner" class="spinner"></div> <!-- Spinner -->
+            <div id="loading-text" class="loading-text">Cargando...</div> <!-- Texto "Cargando" -->
+        </div>
+
+    </div>
+
+    <script src="scripts.js"></script>
+    <script type="module">
+        // Importar funciones necesarias de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCzMNKimcw1kaaJlMdTKj7RAdlsHyaImBk",
+            authDomain: "vera-pizza-app.firebaseapp.com",
+            databaseURL: "https://vera-pizza-app-default-rtdb.firebaseio.com",
+            projectId: "vera-pizza-app",
+            storageBucket: "vera-pizza-app.firebasestorage.app",
+            messagingSenderId: "783988757356",
+            appId: "1:783988757356:web:c66d3f2571aff0f125d949",
+            measurementId: "G-FNLSPHKXFW"
+        };
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Inicializar EmailJS
+            emailjs.init("wGGXbjw0SnUFnyV2T"); // Reemplaza con tu User ID de EmailJS
+
+            document.getElementById('submit-button').addEventListener('click', async function (event) {
+                event.preventDefault(); // Evitar comportamiento predeterminado del formulario
+
+                // Mostrar el spinner y cambiar el fondo del body
+                document.getElementById('loading').style.display = 'flex'; // Usamos 'flex' para que el spinner se centre
+                document.body.classList.add('loading-active'); // Activar el fondo oscuro
+
+                // Obtener valores del formulario
+                const name = document.getElementById('name').value;
+                const address = document.getElementById('address').value;
+                const phone = document.getElementById('phone').value;
+                const Observaciones = document.getElementById('Observaciones').value;
+                const deliveryOption = document.querySelector('select[name="delivery"]').value;
+
+                // Validación básica del formulario
+                if (!name || !address || !phone) {
+                    alert("Por favor, completa todos los campos requeridos.");
+                    document.getElementById('loading').style.display = 'none'; // Ocultar el loading en caso de error
+                    document.body.classList.remove('loading-active'); // Restaurar fondo normal
+                    return; // Detener la ejecución si falta información
+                }
+
+                await new Promise(resolve => setTimeout(resolve, 3000)); // Simula el tiempo de espera (3 segundos)
+
+                // Actualizar puntos si se está en finalizarpedido.html
+                if (window.location.pathname.includes("finalizarpedido.html")) {
+                    await actualizarPuntosFirebase(phone);
+                }
+
+                // Calcular costos y obtener carrito
+                let deliveryCost = deliveryOption === "envio" ? 1000 : 0;
+                const cart = loadCart();
+                const cartItems = Object.entries(cart)
+                    .map(([productName, { price, quantity }]) =>
+                        `${productName}: ${quantity} x $${price} = $${price * quantity}`
+                    )
+                    .join('\n');
+                const totalAmount = Object.values(cart).reduce(
+                    (sum, product) => sum + (product.price * product.quantity),
+                    0
+                ) + deliveryCost;
+
+                // Enviar el correo
+                emailjs.send("service_6kjxjnj", "template_o8vfdnl", {
+                    from_name: name,
+                    to_name: "La Vera Pizza",
+                    address: address,
+                    phone: phone,
+                    Observaciones: Observaciones,
+                    deliveryOption: deliveryOption,
+                    deliveryCost: deliveryCost,
+                    cartItems: cartItems,
+                    totalAmount: totalAmount,
+                })
+                    .then(function (response) {
+                        console.log('Correo enviado con éxito:', response.status, response.text);
+                        // Ocultar el spinner y restaurar el fondo del body
+                        document.getElementById('loading').style.display = 'none';
+                        document.body.classList.remove('loading-active'); // Restaurar fondo normal
+                        window.location.href = 'gracias.html'; // Redirigir a gracias.html
+                    })
+                    .catch(function (error) {
+                        console.error('Error al enviar el correo:', error);
+                        // Ocultar el spinner y restaurar el fondo del body en caso de error
+                        document.getElementById('loading').style.display = 'none';
+                        document.body.classList.remove('loading-active'); // Restaurar fondo normal
+                        alert("Error al enviar el formulario, por favor intenta nuevamente.");
+                    });
+            });
+
+            // Función para cargar el carrito desde localStorage
+            function loadCart() {
+                const storedCart = localStorage.getItem('cart');
+                return storedCart ? JSON.parse(storedCart) : {};
+            }
+
+            // Función para actualizar puntos en Firebase
+            async function actualizarPuntosFirebase(phone) {
+                const dbRef = ref(database, `usuarios/${phone}`);
+                try {
+                    const snapshot = await get(dbRef);
+                    let puntos = snapshot.exists() ? snapshot.val().puntos || 0 : 0;
+                    puntos += 1; // Sumar un punto
+                    await set(dbRef, { puntos });
+                    console.log('Puntos actualizados correctamente en Firebase.');
+                } catch (error) {
+                    console.error('Error al actualizar puntos en Firebase:', error);
+                }
+            }
+
+            // Verificar estado del pedido desde localStorage
+            const submitButton = document.getElementById("submit-button");
+            const estadoPedido = localStorage.getItem("estadoPedido");
+
+            if (estadoPedido === "abierto") {
+                submitButton.disabled = false;
+                submitButton.style.opacity = "1";
+                submitButton.style.cursor = "pointer";
+            } else {
+                submitButton.disabled = true;
+                submitButton.style.opacity = "0.5";
+                submitButton.style.cursor = "not-allowed";
+            }
+        });
+    </script>
+
+<div class="button-container-1">
+    <a href="carrito.html">
+        <div class="cart-icon">
+            <img src="img/carrito-de-compras.png" alt="Cart Icon">
+            <div id="cart-count">0</div> <!-- Contador del carrito -->
+        </div>
+</div>
+
+</body>
+
+<footer>
+    <a href="index.html">
+        <img src="img/casa.png" alt="Logo 1">
+    </a>
+    <div class="separator"></div>
+
+    <a href="contacto.html">
+        <img src="img/redes-sociales.png" alt="Logo 2">
+    </a>
+    <div class="separator"></div>
+
+    <a href="puntos.html">
+        <img src="img/premios.png" alt="Logo 2">
+    </a>
+    <div class="separator"></div>
+
+    <a href="promociones.html">
+        <img src="img/promocion.png" alt="Logo 4">
+    </a>
+    <div class="separator"></div>
+
+    <a href="productos-ventas.html">
+        <img src="img/pizza.png" alt="Logo 3">
+    </a>
+</footer>
+
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="icon" href="img/LOGO LA VERA PIZZA.png" type="image/x-icon">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JY074PKZHG"></script>
+
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JY074PKZHG');
+</script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Caja de estado (abierto/cerrado) */
+        #status-bar {
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            color: white;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1001;
+        }
+
+        footer {
+            position: fixed;
+            /* Hace que el footer esté fijo en la parte inferior */
+            bottom: 0;
+            /* Alinea el footer a la parte inferior de la ventana */
+            left: 0;
+            /* Alinea el footer al lado izquierdo de la ventana */
+            background-color: white;
+            color: white;
+            display: flex;
+            justify-content: center;
+            /* Centra los logos en el footer */
+            align-items: center;
+            /* Centra los logos verticalmente */
+            width: 100%;
+            /* Asegura que el footer ocupe todo el ancho de la página */
+            z-index: 1000;
+            /* Asegura que el footer esté por encima de otros elementos */
+            border-top: 2px solid black;
+            /* Agrega una línea negra de 2px en la parte superior */
+        }
+
+        footer img {
+            width: 40px;
+            /* Ancho de los logos */
+            height: auto;
+            /* Mantiene la proporción */
+            margin: 10px 5px;
+            /* Espacio entre los logos (10px arriba y abajo, 15px a los lados) */
+            background-color: white;
+            /* Color de fondo para visualizar el espacio */
+        }
+
+        .separator {
+            width: 1px;
+            /* Ancho de la barra */
+            height: 50px;
+            /* Altura de la barra */
+            background-color: rgb(10, 10, 10);
+            /* Color de la barra */
+            margin: 0 10px;
+            /* Espacio a los lados de la barra */
+        }
+
+        .carrusel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin-top: 0;
+            /* Asegura que no haya margen */
+        }
+
+        .imagenes {
+            display: flex;
+            transition: transform 1s ease-in-out;
+            width: 100%;
+            height: 100%;
+            /* Altura del carrusel */
+        }
+
+        .imagenes img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .prev,
+        .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            user-select: none;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+
+
+        /* BOTON DE WHATSAPP */
+        .button-container-1 {
+            position: fixed;
+            bottom: 20px;
+            /* Espacio desde la parte inferior */
+            right: 20px;
+            /* Espacio desde la parte derecha */
+            z-index: 1000;
+            /* Asegura que esté por encima de otros elementos */
+            display: flex;
+            /* Usamos flex para alinear verticalmente */
+            flex-direction: column;
+            /* Coloca los elementos en columna */
+            align-items: flex-end;
+            /* Alinea los elementos al final */
+        }
+
+        .whatsapp-button,
+        .other-button {
+            margin-bottom: 120px;
+            /* Espacio entre los botones */
+            width: 80px;
+            height: 80px;
+        }
+
+
+
+        .other-icon {
+            width: 100px;
+            /* Ajusta el ancho del ícono */
+            height: auto;
+            /* Mantiene la proporción de la imagen */
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Barra de estado -->
+       <div id="status-bar"></div> 
+
+    <div class="carrusel">
+        <div class="imagenes">
+            <img src="img/2.jpg" alt="Imagen 1">
+            <img src="img/1.jpg" alt="Imagen 2">
+            <img src="img/3.jpg" alt="Imagen 3">
+            <img src="img/4.jpg" alt="Imagen 4">
+            <img src="img/5.jpg" alt="Imagen 5">
+            <img src="img/6.jpg" alt="Imagen 6">
+            <img src="img/7.jpg" alt="Imagen 7">
+        </div>
+        <button class="prev" onclick="cambiarImagen(-1)">&#10094;</button>
+        <button class="next" onclick="cambiarImagen(1)">&#10095;</button>
+    </div>
+    <script src="carrusel.js"></script>
+
+    <div class="button-container-1">
+        <a href="https://www.instagram.com/laverapizza.arg/profilecard/?igsh=MXA4Y3pnOHdyNHdpbA== "
+            class="other-button">
+            <img src="img/LOGO LA VERA PIZZA.png" alt="Otro Icono" class="other-icon">
+        </a>
+    </div>
+
+   <script src="estado.js"></script>
+</body>
+
+<footer>
+    <a href="index.html">
+        <img src="img/casa.png" alt="Logo 1">
+    </a>
+    <div class="separator"></div>
+
+    <a href="contacto.html">
+        <img src="img/redes-sociales.png" alt="Logo 2">
+    </a>
+    <div class="separator"></div>
+
+    <a href="puntos.html">
+        <img src="img/premios.png" alt="Logo 2">
+    </a>
+    <div class="separator"></div>
+
+    <a href="promociones.html">
+        <img src="img/promocion.png" alt="Logo 4">
+    </a>
+    <div class="separator"></div>
+
+    <a href="productos-ventas.html">
+        <img src="img/pizza.png" alt="Logo 3">
+    </a>
+</footer>
+
+</html>

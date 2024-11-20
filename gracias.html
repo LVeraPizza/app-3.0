@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Realizado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url(img/fondo-horno.jpeg);
+            background-color: #f0f0f0;
+            background-size: cover;
+            /* La imagen ocupa todo el fondo */
+            background-position: center;
+            /* Centra la imagen */
+            background-repeat: no-repeat;
+            /* Evita que la imagen se repita */
+            background-attachment: fixed;
+            /* Hace que el fondo quede fijo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+
+        }
+
+        p {
+            font-family: 'Lobster', cursive;
+            font-size: 2rem;
+            color: #333;
+            text-align: center;
+        }
+
+        /* Contenedor de mensaje */
+        .confirmation-message {
+            position: relative;
+            text-align: center;
+            background-color: rgba(46, 40, 40, 0.6);
+            /* Fondo blanco con opacidad */
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            animation: scaleUp 0.5s ease-out forwards;
+            max-width: 90%;
+        }
+
+
+        /* Estilo del texto */
+        h1 {
+            color: #00f108;
+            font-size: 28px;
+            margin: 0;
+        }
+
+        p {
+            color: white;
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        /* Animación de escala */
+        @keyframes scaleUp {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Confeti animado */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f39c12;
+            opacity: 0.8;
+            animation: fall 2s ease-out infinite;
+            border-radius: 50%;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .confetti:nth-child(odd) {
+            background-color: #e74c3c;
+            animation-duration: 1.5s;
+        }
+
+        .confetti:nth-child(even) {
+            background-color: #3498db;
+            animation-duration: 2.5s;
+        }
+
+        /* Estilo para el botón */
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 30px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+        }
+
+        h2{
+            color: #ffec3f;
+            font-size: 26px;
+            margin-bottom: 0;
+        
+
+        }
+        h3{
+            color: white;
+            margin-top: 0;
+            margin-bottom: 40px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Mensaje de confirmación -->
+    <div class="confirmation-message">
+        <h1>¡Tu pedido ha sido realizado!</h1>
+        <p>Gracias por confiar en La Vera Pizza.</p>
+        <h2>Has Sumado 1 Punto</h2>
+        <h3>(Verificalo en la sección premios)</h3>
+
+        <!-- Botón para volver a la página de inicio -->
+        <a href="index.html" class="back-button">Volver al Inicio</a>
+    </div>
+
+    <!-- Confeti animado -->
+    <div class="confetti" style="left: 10%; animation-delay: 0.1s;"></div>
+    <div class="confetti" style="left: 30%; animation-delay: 0.3s;"></div>
+    <div class="confetti" style="left: 50%; animation-delay: 0.5s;"></div>
+    <div class="confetti" style="left: 70%; animation-delay: 0.7s;"></div>
+    <div class="confetti" style="left: 90%; animation-delay: 0.9s;"></div>
+
+    <script>
+        // Vaciar el carrito en localStorage
+        localStorage.removeItem('cart');
+    </script>
+</body>
+
+</html>

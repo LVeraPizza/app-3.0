@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="img/LOGO LA VERA PIZZA.png" type="image/x-icon">
+    <title>Productos</title>
+
+</head>
+
+<body>
+
+    <h4 class="category-header">Pizzas Napolitanas</h4>
+
+
+    <div class="product-card" data-product-name="Margherita">
+        <img src="img/pizza_margherita.png" alt="Producto" class="product-image" onclick="openImage(this)">
+        <div class="product-info">
+            <h3 class="product-name">Pizza Margherita</h3>
+            <p class="product-description">Salsa de tomate pomodoro, queso mozzarella, albahaca, aceite de oliva.</p>
+            <div class="product-footer">
+                <span class="product-price">$7000</span> <!-- Precio -->
+                <div class="quantity-controls">
+                    <button type="button" onclick="decreaseQuantity('Pizza Margherita')">-</button>
+                    <input type="text" id="Pizza Margherita" class="quantity" value="0" readonly>
+                    <button type="button" onclick="increaseQuantity('Pizza Margherita')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="product-card">
+
+        <img src="img/pizza_pepperoni.png" alt="Producto" class="product-image" onclick="openImage(this)">
+
+        <div class="product-info">
+            <h3 class="product-name">Pizza Pepperoni</h3>
+            <p class="product-description">Salsa de tomate pomodoro, queso mozzarella, albahaca, aceite de oliva,
+                pepperoni.</p>
+            <div class="product-footer">
+                <span class="product-price">$8000</span> <!-- Precio debajo de la imagen -->
+                <div class="quantity-controls">
+                    <button type="button" onclick="decreaseQuantity('Pizza Pepperoni')">-</button>
+                    <input type="text" id="Pizza Pepperoni" class="quantity" value="0" readonly>
+                    <button type="button" onclick="increaseQuantity('Pizza Pepperoni')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+
+        <img src="img/pizza_4formaggi.png" alt="Producto" class="product-image" onclick="openImage(this)">
+
+        <div class="product-info">
+            <h3 class="product-name">Pizza 4Formaggi</h3>
+            <p class="product-description">Queso mozzarella, parmesano, azul, provolone, aceitunas negras.</p>
+            <div class="product-footer">
+                <span class="product-price">$8000</span> <!-- Precio debajo de la imagen -->
+                <div class="quantity-controls">
+                    <button type="button" onclick="decreaseQuantity('Pizza 4Formaggi')">-</button>
+                    <input type="text" id="Pizza 4Formaggi" class="quantity" value="0" readonly>
+                    <button type="button" onclick="increaseQuantity('Pizza 4Formaggi')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="product-card">
+
+        <img src="img/pizza_rúcula_y_jamon_crudo.png" alt="Producto" class="product-image" onclick="openImage(this)">
+
+        <div class="product-info">
+            <h3 class="product-name">Pizza Rúcula y Jamon Crudo</h3>
+            <p class="product-description">Queso mozzarella, salsa de tomate pomodoro, parmesano, jamÓn crudo, rúcula.
+            </p>
+            <div class="product-footer">
+                <span class="product-price">$8000</span> 
+                <div class="quantity-controls">
+                    <button type="button" onclick="decreaseQuantity('Pizza Rúcula y Jamon Crudo')">-</button>
+                    <input type="text" id="Pizza Rúcula y Jamon Crudo" class="quantity" value="0" readonly>
+                    <button type="button" onclick="increaseQuantity('Pizza Rúcula y Jamon Crudo')">+</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    <div class="product-card">
+
+        <img src="img/pizza_caprese.png" alt="Producto" class="product-image" onclick="openImage(this)">
+
+        <div class="product-info">
+            <h3 class="product-name">Pizza Caprese</h3>
+            <p class="product-description">Queso mozzarella, salsa de tomate pomodoro, tomates cherrys, albahaca, aceite de oliva.</p>
+            <div class="product-footer">
+                <span class="product-price">$8000</span> 
+                <div class="quantity-controls">
+                    <button type="button" onclick="decreaseQuantity('Pizza Caprese')">-</button>
+                    <input type="text" id="Pizza Caprese" class="quantity" value="0" readonly>
+                    <button type="button" onclick="increaseQuantity('Pizza Caprese')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+
+        <img src="img/pizza_mortadela_con_pistacho.png" alt="Producto" class="product-image" onclick="openImage(this)">
+
+        <div class="product-info">
+            <h3 class="product-name">Pizza Mortadela con pistacho</h3>
+            <p class="product-description">Queso mozzarella, salsa de tomate pomodoro, mortadela con pistacho, pesto.</p>
+            <div class="product-footer">
+                <span class="product-price">$8000</span> <!-- Precio debajo de la imagen -->
+                <div class="quantity-controls">
+                    <button type="button" onclick="decreaseQuantity('Pizza Mortadela con pistacho')">-</button>
+                    <input type="text" id="Pizza Mortadela con pistacho" class="quantity" value="0" readonly>
+                    <button type="button" onclick="increaseQuantity('Pizza Mortadela con pistacho')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="category-header">Focacceria</h4>
+    <div class="product-card">
+
+        <img src="img/focaccia_mortadela.png" alt="Producto" class="product-image" onclick="openImage(this)">
+
+        <div class="product-info">
+            <h3 class="product-name">Focaccia Mortadela</h3>
+            <p class="product-description">Focaccia, mortadela con pistacho, queso mozarella, pesto.</p>
+            <div class="product-footer">
+                <span class="product-price">$7000</span> <!-- Precio debajo de la imagen -->
+                <div class="quantity-controls">
+                    <button type="button" onclick="decreaseQuantity('Focaccia Mortadela')">-</button>
+                    <input type="text" id="Focaccia Mortadela" class="quantity" value="0" readonly>
+                    <button type="button" onclick="increaseQuantity('Focaccia Mortadela')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card">
+
+        <img src="img/focaccia_rucula_y_jc.png" alt="Producto" class="product-image" onclick="openImage(this)">
+
+        <div class="product-info">
+            <h3 class="product-name">Focaccia Rúcula y JC</h3>
+            <p class="product-description">Focaccia, rúcula, jamón crudo, mozarella</p>
+            <div class="product-footer">
+                <span class="product-price">$7000</span> <!-- Precio debajo de la imagen -->
+                <div class="quantity-controls">
+                    <button type="button" onclick="decreaseQuantity('Focaccia Rucula y JC')">-</button>
+                    <input type="text" id="Focaccia Rucula y JC" class="quantity" value="0" readonly>
+                    <button type="button" onclick="increaseQuantity('Focaccia Rucula y JC')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h4 class="category-header">Paninis</h4>
+    <div class="product-card">
+
+        <img src="img/panini_rucula_y_jc.png" alt="Producto" class="product-image" onclick="openImage(this)">
+
+        <div class="product-info">
+            <h3 class="product-name">Panini Rúcula y JC</h3>
+            <p class="product-description">Rúcula, jamón crudo, mozarella, parmesano, aceite de oliva.</p>
+            <div class="product-footer">
+                <span class="product-price">$7000</span> <!-- Precio debajo de la imagen -->
+                <div class="quantity-controls">
+                    <button type="button" onclick="decreaseQuantity('Panini Rucula y JC')">-</button>
+                    <input type="text" id="Panini Rucula y JC" class="quantity" value="0" readonly>
+                    <button type="button" onclick="increaseQuantity('Panini Rucula y JC')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h4 class="category-header">Calzones Napolitanos</h4>
+    <div class="product-card-2">
+
+        <img src="img/calzone_clasico.png" alt="Producto" class="product-image" onclick="openImage(this)">
+
+        <div class="product-info">
+            <h3 class="product-name">Calzone Clasico</h3>
+            <p class="product-description">Salsa de tomate pomodoro, mozarella, albahaca, aceite de oliva.</p>
+            <div class="product-footer">
+                <span class="product-price">$5000</span> <!-- Precio debajo de la imagen -->
+                <div class="quantity-controls">
+                    <button type="button" onclick="decreaseQuantity('Calzone Clasico')">-</button>
+                    <input type="text" id="Calzone Clasico" class="quantity" value="0" readonly>
+                    <button type="button" onclick="increaseQuantity('Calzone Clasico')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+       <!-- Modal para mostrar la imagen en pantalla completa -->
+       <div id="image-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeImage()">&#x2715;</button>
+            <img id="full-image" alt="Producto en pantalla completa">
+        </div>
+    </div>
+    <script>
+        function openImage(imageElement) {
+            const modal = document.getElementById("image-modal");
+            const fullImage = document.getElementById("full-image");
+
+            // Configurar la imagen del modal
+            fullImage.src = imageElement.src;
+
+            // Mostrar el modal
+            modal.style.display = "flex";
+        }
+
+        function closeImage() {
+            const modal = document.getElementById("image-modal");
+
+            // Ocultar el modal
+            modal.style.display = "none";
+        }
+    </script>
+
+    <script src="scripts.js"></script>
+
+    <div class="button-container-1">
+        <a href="carrito.html">
+            <div class="cart-icon">
+                <img src="img/carrito-de-compras.png" alt="Cart Icon">
+                <div id="cart-count">0</div> <!-- Contador del carrito -->
+            </div>
+    </div>
+</body>
+
+<footer>
+    <a href="index.html">
+        <img src="img/casa.png" alt="Logo 1">
+    </a>
+    <div class="separator"></div>
+
+    <a href="contacto.html">
+        <img src="img/redes-sociales.png" alt="Logo 2">
+    </a>
+    <div class="separator"></div>
+
+    <a href="puntos.html">
+        <img src="img/premios.png" alt="Logo 2">
+    </a>
+    <div class="separator"></div>
+
+    <a href="promociones.html">
+        <img src="img/promocion.png" alt="Logo 4">
+    </a>
+    <div class="separator"></div>
+
+    <a href="productos-ventas.html">
+        <img src="img/pizza.png" alt="Logo 3">
+    </a>
+</footer>
+
+</html>
