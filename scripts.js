@@ -77,8 +77,9 @@ function getProductPrice(productName) {
         "Panini Rucula y JC": 7000,
         "Calzone Clasico": 5000,
         "2 Margheritas": 12500,
-        "1 Rucula y jC + 1 Pepperoni": 14000,
-        "1 Margherita + 1 4 Formaggi": 13000,
+        "1 Rucula y jC + 1 Pepperoni": 14000, //promocion 1
+        "1 Margherita + 1 4 Formaggi": 13000, // promocion 2
+        "2 Pizzas Margheritas":14000, // promocion puntos
     };
     return prices[productName] || 0; // Retorna 0 si el producto no está definido
 }
