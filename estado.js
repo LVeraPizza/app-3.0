@@ -1,4 +1,4 @@
-/*window.onload = function () {
+window.onload = function () {
     const statusBar = document.getElementById("status-bar");
     const currentDate = new Date();
     const currentDay = currentDate.getDay();
@@ -19,20 +19,3 @@
         localStorage.setItem("estadoPedido", "cerrado");
     }
 };
-*/
-
-
-window.onload = function () {
-    const statusBar = document.getElementById("status-bar");
-
-    // Establecer el estado como "ABIERTO" por defecto
-    statusBar.textContent = "ABIERTO";
-    statusBar.style.backgroundColor = "green";
-
-    // Guardar el estado como "abierto" en localStorage
-    localStorage.setItem("estadoPedido", "abierto");
-
-    // Habilitar el botón de "Enviar"
-    const submitButton = document.getElementById("submit-button");
-    submitButton.disabled = false;
-}
