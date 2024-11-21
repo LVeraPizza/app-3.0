@@ -468,14 +468,26 @@
             // Función para actualizar puntos en Firebase
             async function actualizarPuntosFirebase(phone) {
                 const dbRef = ref(database, `usuarios/${phone}`);
+                const cart = loadCart(); // Cargar el carrito desde localStorage
+                let puntosASumar = 0;
+
+                // Revisar el carrito para asignar puntos específicos
+                Object.keys(cart).forEach(producto => {
+                    if (producto === "2 Pizzas Margheritas") {
+                        puntosASumar += 3 * cart[producto].quantity; // 3 puntos por cada unidad
+                    } else {
+                        puntosASumar += cart[producto].quantity; // 1 punto por cada unidad
+                    }
+                });
+
                 try {
                     const snapshot = await get(dbRef);
                     let puntos = snapshot.exists() ? snapshot.val().puntos || 0 : 0;
-                    puntos += 1; // Sumar un punto
+                    puntos += puntosASumar; // Sumar los puntos calculados
                     await set(dbRef, { puntos });
-                    console.log('Puntos actualizados correctamente en Firebase.');
+                    console.log(`Puntos actualizados correctamente en Firebase. Total: ${puntos}`);
                 } catch (error) {
-                    console.error('Error al actualizar puntos en Firebase:', error);
+                    console.error("Error al actualizar puntos en Firebase:", error);
                 }
             }
 
