@@ -175,7 +175,7 @@
         }
 
         footer img {
-            width: 40px;
+            width: 50px;
             /* Ancho de los logos */
             height: auto;
             /* Mantiene la proporción */
@@ -195,60 +195,6 @@
             margin: 0 10px;
             /* Espacio a los lados de la barra */
         }
-
-        .button-container-1 {
-            position: fixed;
-            bottom: 13%;
-            right: 1%; /* Ajusta el 5% según desees la distancia desde el lado derecho */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: white;
-            border-radius: 50%;
-            width: 70px; /* Tamaño del círculo */
-            height: 70px; /* Tamaño del círculo */
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        
-        .button-container-1:hover {
-            transform: scale(1.1); /* Efecto de zoom al pasar el mouse */
-        }
-        
-        .cart-icon {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .cart-icon img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-        }
-        
-        #cart-count {
-            position: absolute;
-            top: -10%; /* Subir el contador por encima del icono */
-            left: 10%; /* Mover el contador hacia la izquierda */
-            background-color: red;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
 
         /* Estilo del fondo negro semitransparente */
         body.loading-active {
@@ -333,14 +279,12 @@
 
         <div class="form-section">
             <label for="phone">Número de Teléfono:</label>
-            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required
-                placeholder="Escribe tu número, sin 0 y sin 15">
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required placeholder="Escribe tu número">
         </div>
 
         <div class="form-section">
             <label for="address">Observaciones:</label>
-            <input type="text" id="Observaciones" name="Observaciones" required
-                placeholder="Piso, Portero, Comentario, Hora de Retiro">
+            <input type="text" id="Observaciones" name="Observaciones" required placeholder="Piso, Portero, Comentario">
         </div>
 
 
@@ -353,83 +297,52 @@
             </select>
         </div>
 
-
-
         <button id="submit-button">Confirmar Pedido</button>
         <div id="loading" class="loading-container">
             <div id="spinner" class="spinner"></div> <!-- Spinner -->
             <div id="loading-text" class="loading-text">Cargando...</div> <!-- Texto "Cargando" -->
         </div>
 
+
+
     </div>
 
-    <script src="scripts.js"></script>
-    <script type="module">
-        // Importar funciones necesarias de Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
-
-        // Configuración de Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyCzMNKimcw1kaaJlMdTKj7RAdlsHyaImBk",
-            authDomain: "vera-pizza-app.firebaseapp.com",
-            databaseURL: "https://vera-pizza-app-default-rtdb.firebaseio.com",
-            projectId: "vera-pizza-app",
-            storageBucket: "vera-pizza-app.firebasestorage.app",
-            messagingSenderId: "783988757356",
-            appId: "1:783988757356:web:c66d3f2571aff0f125d949",
-            measurementId: "G-FNLSPHKXFW"
-        };
-
-        // Inicializar Firebase
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Inicializar EmailJS
-            emailjs.init("wGGXbjw0SnUFnyV2T"); // Reemplaza con tu User ID de EmailJS
+            (function () {
+                emailjs.init("wGGXbjw0SnUFnyV2T"); // Reemplaza con tu User ID de EmailJS
+            })();
 
-            document.getElementById('submit-button').addEventListener('click', async function (event) {
-                event.preventDefault(); // Evitar comportamiento predeterminado del formulario
+            // Función para manejar el envío del formulario
+            document.getElementById('submit-button').addEventListener('click', function (event) {
+                event.preventDefault(); // Evita que el formulario se envíe de manera predeterminada
 
                 // Mostrar el spinner y cambiar el fondo del body
                 document.getElementById('loading').style.display = 'flex'; // Usamos 'flex' para que el spinner se centre
                 document.body.classList.add('loading-active'); // Activar el fondo oscuro
-
-                // Obtener valores del formulario
+                // Obtener los valores de los campos
                 const name = document.getElementById('name').value;
                 const address = document.getElementById('address').value;
                 const phone = document.getElementById('phone').value;
                 const Observaciones = document.getElementById('Observaciones').value;
                 const deliveryOption = document.querySelector('select[name="delivery"]').value;
 
-                // Validación básica del formulario
-                if (!name || !address || !phone) {
-                    alert("Por favor, completa todos los campos requeridos.");
-                    document.getElementById('loading').style.display = 'none'; // Ocultar el loading en caso de error
-                    document.body.classList.remove('loading-active'); // Restaurar fondo normal
-                    return; // Detener la ejecución si falta información
+
+                // Calcular el costo total
+                let deliveryCost = 0;
+                if (deliveryOption === "envio") {
+                    deliveryCost = 1000; // Agregar costo de envío
                 }
 
-                await new Promise(resolve => setTimeout(resolve, 3000)); // Simula el tiempo de espera (3 segundos)
-
-                // Actualizar puntos si se está en finalizarpedido.html
-                if (window.location.pathname.includes("finalizarpedido.html")) {
-                    await actualizarPuntosFirebase(phone);
-                }
-
-                // Calcular costos y obtener carrito
-                let deliveryCost = deliveryOption === "envio" ? 1000 : 0;
+                // Obtener los productos del carrito (esto es un ejemplo)
                 const cart = loadCart();
-                const cartItems = Object.entries(cart)
-                    .map(([productName, { price, quantity }]) =>
-                        `${productName}: ${quantity} x $${price} = $${price * quantity}`
-                    )
-                    .join('\n');
-                const totalAmount = Object.values(cart).reduce(
-                    (sum, product) => sum + (product.price * product.quantity),
-                    0
-                ) + deliveryCost;
+                const cartItems = Object.entries(cart).map(([productName, { price, quantity }]) => {
+                    return `${productName}: ${quantity} x $${price} = $${price * quantity}`;
+                }).join('\n');
+
+                // Calcular el total
+                const totalAmount = Object.values(cart).reduce((sum, product) => sum + (product.price * product.quantity), 0) + deliveryCost;
 
                 // Enviar el correo
                 emailjs.send("service_6kjxjnj", "template_o8vfdnl", {
@@ -444,77 +357,49 @@
                     totalAmount: totalAmount,
                 })
                     .then(function (response) {
-                        console.log('Correo enviado con éxito:', response.status, response.text);
-                        // Ocultar el spinner y restaurar el fondo del body
-                        document.getElementById('loading').style.display = 'none';
+                        console.log('Éxito!', response.status, response.text);
+                        document.getElementById('loading').style.display = 'none'; // Ocultar el loading en caso de error
                         document.body.classList.remove('loading-active'); // Restaurar fondo normal
-                        window.location.href = 'gracias.html'; // Redirigir a gracias.html
-                    })
-                    .catch(function (error) {
-                        console.error('Error al enviar el correo:', error);
+
+
+                        // Redirigir a gracias.html
+                        window.location.href = 'gracias.html';
+                    }, function (error) {
+                        console.log('Error al enviar el correo:', error);
                         // Ocultar el spinner y restaurar el fondo del body en caso de error
                         document.getElementById('loading').style.display = 'none';
                         document.body.classList.remove('loading-active'); // Restaurar fondo normal
                         alert("Error al enviar el formulario, por favor intenta nuevamente.");
                     });
+
             });
 
             // Función para cargar el carrito desde localStorage
             function loadCart() {
                 const storedCart = localStorage.getItem('cart');
-                return storedCart ? JSON.parse(storedCart) : {};
-            }
-
-            // Función para actualizar puntos en Firebase
-            async function actualizarPuntosFirebase(phone) {
-                const dbRef = ref(database, `usuarios/${phone}`);
-                const cart = loadCart(); // Cargar el carrito desde localStorage
-                let puntosASumar = 0;
-
-                // Revisar el carrito para asignar puntos específicos
-                Object.keys(cart).forEach(producto => {
-                    if (producto === "2 Pizzas Margheritas") {
-                        puntosASumar += 3 * cart[producto].quantity; // 3 puntos por cada unidad
-                    } else {
-                        puntosASumar += cart[producto].quantity; // 1 punto por cada unidad
-                    }
-                });
-
-                try {
-                    const snapshot = await get(dbRef);
-                    let puntos = snapshot.exists() ? snapshot.val().puntos || 0 : 0;
-                    puntos += puntosASumar; // Sumar los puntos calculados
-                    await set(dbRef, { puntos });
-                    console.log(`Puntos actualizados correctamente en Firebase. Total: ${puntos}`);
-                } catch (error) {
-                    console.error("Error al actualizar puntos en Firebase:", error);
+                if (storedCart) {
+                    return JSON.parse(storedCart);
                 }
-            }
-
-            // Verificar estado del pedido desde localStorage
-            const submitButton = document.getElementById("submit-button");
-            const estadoPedido = localStorage.getItem("estadoPedido");
-
-            if (estadoPedido === "abierto") {
-                submitButton.disabled = false;
-                submitButton.style.opacity = "1";
-                submitButton.style.cursor = "pointer";
-            } else {
-                submitButton.disabled = true;
-                submitButton.style.opacity = "0.5";
-                submitButton.style.cursor = "not-allowed";
+                return {};
             }
         });
+
+
+        // Verifica el estado desde Local Storage
+        const submitButton = document.getElementById("submit-button");
+        const estadoPedido = localStorage.getItem("estadoPedido");
+
+        if (estadoPedido === "abierto") {
+            submitButton.disabled = false;
+            submitButton.style.opacity = "1";
+            submitButton.style.cursor = "pointer";
+        } else {
+            submitButton.disabled = true;
+            submitButton.style.opacity = "0.5";
+            submitButton.style.cursor = "not-allowed";
+        }
+
     </script>
-
-<div class="button-container-1">
-    <a href="carrito.html">
-        <div class="cart-icon">
-            <img src="img/carrito-de-compras.png" alt="Cart Icon">
-            <div id="cart-count">0</div> <!-- Contador del carrito -->
-        </div>
-</div>
-
 </body>
 
 <footer>
@@ -528,18 +413,18 @@
     </a>
     <div class="separator"></div>
 
-    <a href="puntos.html">
-        <img src="img/premios.png" alt="Logo 2">
-    </a>
-    <div class="separator"></div>
-
     <a href="promociones.html">
-        <img src="img/promocion.png" alt="Logo 4">
+        <img src="img/promocion.png" alt="Logo 3">
     </a>
     <div class="separator"></div>
 
     <a href="productos-ventas.html">
-        <img src="img/pizza.png" alt="Logo 3">
+        <img src="img/pizza.png" alt="Logo 4">
+    </a>
+    <div class="separator"></div>
+
+    <a href="carrito.html">
+        <img src="img/carrito-de-compras.png" alt="Logo 5">
     </a>
 </footer>
 
