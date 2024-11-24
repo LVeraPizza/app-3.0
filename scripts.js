@@ -102,34 +102,4 @@ function updateQuantityFields() {
 }
 
 
-async function cargarProductos() {
-    const response = await fetch("https://raw.githubusercontent.com/tu-usuario/nombre-del-repositorio/main/productos.json");
-    const productos = await response.json();
-
-    const contenedor = document.getElementById("productos-container");
-    contenedor.innerHTML = "";
-
-    productos.forEach((producto) => {
-        contenedor.innerHTML += `
-            <div class="product-card" data-product-name="${producto.name}">
-                <img src="${producto.image}" alt="Producto" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">${producto.name}</h3>
-                    <p class="product-description">${producto.description}</p>
-                    <div class="product-footer">
-                        <span class="product-price">$${producto.price}</span>
-                        <div class="quantity-controls">
-                            <button type="button">-</button>
-                            <input type="text" class="quantity" value="0" readonly>
-                            <button type="button">+</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-    });
-}
-
-document.addEventListener("DOMContentLoaded", cargarProductos);
-
 
