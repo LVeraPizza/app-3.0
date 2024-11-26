@@ -205,6 +205,13 @@
     </div>
 
    <script src="estado.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(() => console.log('Service Worker registrado.'));
+  }
+</script>
+
 </body>
 
 <footer>
