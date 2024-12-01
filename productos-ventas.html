@@ -222,6 +222,30 @@
             // Ocultar el modal
             modal.style.display = "none";
         }
+
+    // Escucha mensajes enviados desde otra ventana
+    window.addEventListener('message', (event) => {
+        // Validar el origen por seguridad (ajusta la URL del proyecto de control)
+        if (event.origin !== 'https://lverapizza.github.io/control/') {
+            console.warn('Mensaje recibido de un origen no permitido:', event.origin);
+            return;
+        }
+
+        const { accion, productName } = event.data;
+
+        // Seleccionar productos y aplicar la acción
+        const products = document.querySelectorAll('.product-card');
+        products.forEach(product => {
+            const nameElement = product.querySelector('.product-name');
+            if (nameElement && nameElement.textContent.trim() === productName) {
+                if (accion === 'comentar') {
+                    product.style.display = 'none'; // Ocultar (simula comentar)
+                } else if (accion === 'descomentar') {
+                    product.style.display = ''; // Mostrar (simula descomentar)
+                }
+            }
+        });
+    });
     </script>
 
     <script src="scripts.js"></script>
