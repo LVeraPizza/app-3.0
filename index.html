@@ -211,7 +211,7 @@ if ('serviceWorker' in navigator) {
         .catch((error) => console.error('Error al registrar el Service Worker:', error));
 }
 
-<script>
+
     // Escucha mensajes enviados desde otra ventana
     window.addEventListener('message', (event) => {
         // Validar el origen por seguridad (ajusta la URL del proyecto de control)
@@ -235,8 +235,6 @@ if ('serviceWorker' in navigator) {
             }
         });
     });
-</script>
-
 </script>
 
 </body>
