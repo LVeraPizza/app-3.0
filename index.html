@@ -215,7 +215,7 @@ if ('serviceWorker' in navigator) {
     // Escucha mensajes enviados desde otra ventana
     window.addEventListener('message', (event) => {
         // Validar el origen por seguridad (ajusta la URL del proyecto de control)
-        if (event.origin !== 'https://TU-PROYECTO-DE-CONTROL.github.io') {
+        if (event.origin !== 'https://lverapizza.github.io/control/') {
             console.warn('Mensaje recibido de un origen no permitido:', event.origin);
             return;
         }
